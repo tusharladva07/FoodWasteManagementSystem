@@ -1,0 +1,116 @@
+# ==============================================================================
+# Git Ignore - Food Waste Management System
+# Covers: .NET Core / ASP.NET Core, Angular / Node.js, IDEs, and OS artifacts
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. .NET / C# / Visual Studio Build Artifacts & Caches
+# ------------------------------------------------------------------------------
+[Bb]in/
+[Oo]bj/
+[Aa]rms/
+[Aa]rm64/
+out/
+TestResults/
+[Bb]uildLog.*
+*.VisualState.xml
+
+# Visual Studio user-specific & temporary files
+.vs/
+*.user
+*.userosscache
+*.suo
+*.userprefs
+*.sln.docstates
+*.opensdf
+*.opendb
+*.ide
+*.ncb
+*.aps
+
+# Roslyn & NuGet
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# ------------------------------------------------------------------------------
+# 2. Angular / Node.js / Web Frontend Artifacts
+# ------------------------------------------------------------------------------
+**/node_modules/
+**/dist/
+**/.angular/
+**/.angular/cache/
+**/.sass-cache/
+**/out-tsc/
+**/bazel-out/
+**/coverage/
+/tmp/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+testem.log
+/libpeerconnection.log
+/connect.lock
+
+# ------------------------------------------------------------------------------
+# 3. Environment Variables & Secret Configuration
+# ------------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+appsettings.Production.json
+appsettings.*.local.json
+
+# ------------------------------------------------------------------------------
+# 4. Databases & Local Storage
+# ------------------------------------------------------------------------------
+*.mdf
+*.ldf
+*.ndf
+*.db
+*.sqlite
+*.sqlite3
+
+# ------------------------------------------------------------------------------
+# 5. IDEs & Code Editors
+# ------------------------------------------------------------------------------
+# JetBrains Rider / IntelliJ / WebStorm
+.idea/
+*.iws
+*.iml
+
+# Visual Studio Code (keeps workspace recommendations if present)
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/
+
+# Sublime Text / Eclipse / Other
+*.sublime-workspace
+*.sublime-project
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.swp
+*.swo
+*~
+
+# ------------------------------------------------------------------------------
+# 6. Operating System Files
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/

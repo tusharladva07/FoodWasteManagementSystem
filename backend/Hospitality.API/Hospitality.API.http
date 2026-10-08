@@ -1,0 +1,18 @@
+@HostAddress = http://localhost:5088
+
+### 1. Morning Prep Forecast
+GET {{HostAddress}}/api/forecast?expectedCovers=200
+Accept: application/json
+
+### 2. Ingest Cancellations
+POST {{HostAddress}}/api/orders/cancellations
+Content-Type: application/json
+
+[
+  {
+    "bookingName": "ABC Conference",
+    "canceledCovers": 30,
+    "cancellationRate": 0.10,
+    "estimatedWasteCost": 200
+  }
+]

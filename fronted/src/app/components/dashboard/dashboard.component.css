@@ -1,0 +1,70 @@
+.header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.tracking-wide {
+  letter-spacing: 0.05em;
+  font-size: 0.78rem;
+}
+
+.metric-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-left: 4px solid transparent !important;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08) !important;
+}
+
+.metric-waste {
+  border-left-color: #ffc107 !important;
+  background: linear-gradient(180deg, #ffffff 0%, #fffdf8 100%);
+}
+
+.metric-loss {
+  border-left-color: #dc3545 !important;
+  background: linear-gradient(180deg, #ffffff 0%, #fffbfb 100%);
+}
+
+.metric-prep {
+  border-left-color: #0d6efd !important;
+  background: linear-gradient(180deg, #ffffff 0%, #f9fcff 100%);
+}
+
+.feature-card {
+  transition: box-shadow 0.2s ease;
+}
+
+.feature-card:hover {
+  box-shadow: 0 0.5rem 1.25rem rgba(0, 0, 0, 0.06) !important;
+}
+
+.preview-container {
+  background-color: #f8f9fa;
+}
+
+.preview-image {
+  max-height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.border-dashed {
+  border-style: dashed !important;
+  border-width: 2px !important;
+  border-color: #dee2e6 !important;
+}

@@ -1,0 +1,421 @@
+<div class="container py-4">
+  <!-- Header Title -->
+  <header class="pb-3 mb-4 border-bottom d-flex align-items-center justify-content-between">
+    <div class="d-flex align-items-center">
+      <div class="header-icon bg-primary text-white rounded-3 p-2 me-3 shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-speedometer2" viewBox="0 0 16 16">
+          <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4M3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.024l-.454.454a.5.5 0 0 0 .707.708l.454-.454a.39.39 0 0 0-.18-.684"/>
+          <path d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25-1.026-.332-2.18-.745-4.615-.745-2.433 0-3.587.413-4.615.745-1.085.352-2.49-.003-2.932-1.25A7.99 7.99 0 0 1 0 10m8-7a7 7 0 0 0-6.603 9.384c.755.383 1.986.726 3.603.726 2.128 0 3.32-.39 4.397-.738 1.077.348 2.269.738 4.397.738 1.617 0 2.848-.343 3.603-.726A7 7 0 0 0 8 3"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="h3 mb-0 fw-bold text-dark">Hospitality Kitchen Dashboard</h1>
+        <small class="text-muted">Buffet Waste Auditing & Intelligent Morning Prep Forecasting</small>
+      </div>
+    </div>
+    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill fs-7">
+      Live System
+    </span>
+  </header>
+
+  <!-- TOP KPI METRICS ROW -->
+  <section class="row g-3 mb-4" aria-label="Key Performance Indicators">
+    <!-- Metric 1: Total Waste KG -->
+    <div class="col-12 col-md-4">
+      <div class="card h-100 shadow-sm border-0 metric-card metric-waste">
+        <div class="card-body d-flex flex-column justify-content-between p-4">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-uppercase fw-semibold text-muted small tracking-wide">Total Waste</span>
+            <span class="badge bg-warning text-dark px-2 py-1 rounded">Weight</span>
+          </div>
+          <div>
+            <h2 class="display-6 fw-bold mb-0 text-dark" id="totalWasteKg">{{ totalWasteKg | number:'1.2-2' }} <span class="fs-5 text-muted fw-normal">KG</span></h2>
+          </div>
+          <div class="mt-2 text-muted small">
+            Cumulative recorded food waste
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metric 2: Cumulative Lost Revenue USD -->
+    <div class="col-12 col-md-4">
+      <div class="card h-100 shadow-sm border-0 metric-card metric-loss">
+        <div class="card-body d-flex flex-column justify-content-between p-4">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-uppercase fw-semibold text-muted small tracking-wide">Cumulative Lost Revenue</span>
+            <span class="badge bg-danger px-2 py-1 rounded">Financial</span>
+          </div>
+          <div>
+            <h2 class="display-6 fw-bold mb-0 text-danger" id="cumulativeLostRevenueUsd">${{ cumulativeLostRevenueUsd | number:'1.2-2' }} <span class="fs-5 text-muted fw-normal">USD</span></h2>
+          </div>
+          <div class="mt-2 text-muted small">
+            Estimated financial loss from discarded items
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Metric 3: Tomorrow's Recommended Prep Count -->
+    <div class="col-12 col-md-4">
+      <div class="card h-100 shadow-sm border-0 metric-card metric-prep">
+        <div class="card-body d-flex flex-column justify-content-between p-4">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span class="text-uppercase fw-semibold text-muted small tracking-wide">Tomorrow's Recommended Prep Count</span>
+            <span class="badge bg-primary px-2 py-1 rounded">Target</span>
+          </div>
+          <div>
+            <h2 class="display-6 fw-bold mb-0 text-primary" id="tomorrowRecommendedPrepCount">{{ tomorrowRecommendedPrepCount }} <span class="fs-5 text-muted fw-normal">Portions</span></h2>
+          </div>
+          <div class="mt-2 text-muted small">
+            AI-adjusted projection accounting for cancellations
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN ACTIONS ROW (Left Card & Right Card) -->
+  <div class="row g-4">
+    <!-- LEFT CARD: Post-Service Buffet Audit -->
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100 border-0 feature-card">
+        <div class="card-header bg-white border-bottom py-3">
+          <h2 class="h5 mb-0 fw-bold text-dark d-flex align-items-center">
+            <span class="step-indicator bg-primary text-white me-2">1</span>
+            Post-Service Buffet Audit
+          </h2>
+          <small class="text-muted">Upload an end-of-service tray image to quantify wasted food and loss</small>
+        </div>
+        <div class="card-body p-4 d-flex flex-column">
+          <!-- Image File Upload -->
+          <div class="mb-3">
+            <label for="buffetImageInput" class="form-label fw-semibold text-secondary">
+              Upload Buffet Tray Image
+            </label>
+            <input 
+              type="file" 
+              class="form-control" 
+              id="buffetImageInput" 
+              accept="image/*" 
+              (change)="onFileSelected($event)">
+            <div class="form-text">Supported formats: JPEG, PNG, WEBP.</div>
+          </div>
+
+          <!-- Preview Area if image chosen -->
+          <div *ngIf="imagePreviewUrl" class="mb-3 text-center preview-container p-2 border rounded bg-light">
+            <img [src]="imagePreviewUrl" alt="Buffet preview" class="img-fluid rounded preview-image" />
+            <div class="small text-muted mt-1">{{ selectedFile?.name }} ({{ ((selectedFile?.size || 0) / 1024).toFixed(1) }} KB)</div>
+          </div>
+
+          <!-- Analyze Button -->
+          <div class="mb-3">
+            <button 
+              type="button" 
+              id="analyzeButton"
+              class="btn btn-primary w-100 py-2 fw-semibold d-flex justify-content-center align-items-center"
+              [disabled]="!selectedFile || isAnalyzing"
+              (click)="analyzeBuffet()">
+              <span *ngIf="isAnalyzing" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              {{ isAnalyzing ? 'Analyzing Image...' : 'Analyze' }}
+            </button>
+          </div>
+
+          <!-- Error Alert -->
+          <div *ngIf="auditErrorMessage" class="alert alert-warning py-2 small mb-3" role="alert">
+            {{ auditErrorMessage }}
+          </div>
+
+          <!-- Audit Result Area -->
+          <div class="mt-auto">
+            <h3 class="h6 fw-bold text-uppercase text-secondary mb-3 border-top pt-3">Audit Results</h3>
+
+            <!-- When result is available -->
+            <div *ngIf="auditResult" class="p-3 rounded border bg-light-subtle" id="auditResultArea">
+              <div class="row g-2 mb-2">
+                <div class="col-6">
+                  <div class="text-muted small">Dish Name:</div>
+                  <strong class="text-dark fs-6" id="auditDishName">{{ auditResult.itemName || auditResult.dishName }}</strong>
+                </div>
+                <div class="col-6">
+                  <div class="text-muted small">Remaining Percentage:</div>
+                  <strong class="text-primary fs-6" id="auditRemainingPercentage">{{ auditResult.remainingPercentage }}%</strong>
+                </div>
+              </div>
+
+              <!-- Visual Progress Bar for Remaining % -->
+              <div class="progress mb-3" style="height: 8px;">
+                <div 
+                  class="progress-bar bg-warning" 
+                  role="progressbar" 
+                  [style.width.%]="auditResult.remainingPercentage" 
+                  [attr.aria-valuenow]="auditResult.remainingPercentage" 
+                  aria-valuemin="0" 
+                  aria-valuemax="100"></div>
+              </div>
+
+              <div class="row g-2 pt-2 border-top">
+                <div class="col-6">
+                  <div class="text-muted small">Wasted KG:</div>
+                  <strong class="text-warning-emphasis fs-5" id="auditWastedKg">{{ auditResult.wastedWeightKg | number:'1.2-2' }} kg</strong>
+                </div>
+                <div class="col-6">
+                  <div class="text-muted small">Dollar Loss:</div>
+                  <strong class="text-danger fs-5" id="auditDollarLoss">${{ auditResult.estimatedLossUsd | number:'1.2-2' }}</strong>
+                </div>
+              </div>
+
+              <!-- Epic 1, Story 1.2: High-Cost Dish Waste Alert (>20% waste) -->
+              <div *ngIf="isHighCostAlert(auditResult)" class="alert alert-danger d-flex align-items-start mt-3 mb-0 py-2 border-danger-subtle bg-danger-subtle text-danger-emphasis rounded" role="alert" id="highCostAlert">
+                <span class="fs-5 me-2">⚠️</span>
+                <div>
+                  <strong class="d-block small">High-Cost Dish Waste Alert (F&B Director Flag)</strong>
+                  <span class="small">
+                    Leftover volume (<strong>{{ auditResult.remainingPercentage }}%</strong>) exceeds the <strong>20% threshold</strong> for <em>{{ auditResult.itemName || auditResult.dishName }}</em> with an estimated loss of <strong>${{ auditResult.estimatedLossUsd | number:'1.2-2' }}</strong>.
+                    <span class="d-block text-danger fw-semibold mt-1">Action: Reduce batch cooking prep sizes for tomorrow's shift.</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Placeholder state before analysis -->
+            <div *ngIf="!auditResult" class="text-center py-4 border rounded border-dashed text-muted bg-light">
+              <p class="mb-0 small">Select an image and click <strong>Analyze</strong> to see dish breakdown and waste analysis.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT CARD: Morning Prep & Shortage Preventer -->
+    <div class="col-12 col-lg-6">
+      <div class="card shadow-sm h-100 border-0 feature-card">
+        <div class="card-header bg-white border-bottom py-3">
+          <h2 class="h5 mb-0 fw-bold text-dark d-flex align-items-center">
+            <span class="step-indicator bg-success text-white me-2">2</span>
+            Morning Prep & Shortage Preventer
+          </h2>
+          <small class="text-muted">Dynamic kitchen prep calculator with real-time cancellation safety buffers</small>
+        </div>
+        <div class="card-body p-4 d-flex flex-column">
+          <!-- Expected hotel guests input -->
+          <div class="mb-3">
+            <label for="expectedGuestsInput" class="form-label fw-semibold text-secondary">
+              Expected Hotel Guests
+            </label>
+            <div class="input-group">
+              <input 
+                type="number" 
+                class="form-control form-control-lg" 
+                id="expectedGuestsInput" 
+                placeholder="e.g. 150" 
+                min="1" 
+                [(ngModel)]="expectedGuests"
+                (keyup.enter)="calculateForecast()">
+              <span class="input-group-text bg-light text-muted">Guests</span>
+            </div>
+            <div class="form-text">Estimated guest reservations for tomorrow's breakfast / buffet service.</div>
+          </div>
+
+          <!-- Calculate Button -->
+          <div class="mb-3">
+            <button 
+              type="button" 
+              id="calculateButton"
+              class="btn btn-success w-100 py-2 fw-semibold d-flex justify-content-center align-items-center"
+              [disabled]="isCalculating || !expectedGuests"
+              (click)="calculateForecast()">
+              <span *ngIf="isCalculating" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+              {{ isCalculating ? 'Calculating Portions...' : 'Calculate' }}
+            </button>
+          </div>
+
+          <!-- Error Alert -->
+          <div *ngIf="prepErrorMessage" class="alert alert-warning py-2 small mb-3" role="alert">
+            {{ prepErrorMessage }}
+          </div>
+
+          <!-- Calculation Result Area -->
+          <div class="mt-auto">
+            <h3 class="h6 fw-bold text-uppercase text-secondary mb-3 border-top pt-3">Prep Recommendations</h3>
+
+            <!-- When forecast is calculated or preloaded -->
+            <div *ngIf="forecastResult" class="p-3 rounded border bg-light-subtle" id="forecastResultArea">
+              <div class="row g-3">
+                <div class="col-12 col-sm-6">
+                  <div class="p-3 bg-white rounded border shadow-xs h-100">
+                    <span class="text-muted small d-block mb-1">Recommended Prep Portions</span>
+                    <span class="fs-4 fw-bold text-success" id="recommendedPrepPortions">
+                      {{ forecastResult.recommendedPrepCount }}
+                    </span>
+                    <span class="text-muted small ms-1">portions</span>
+                    <div class="small text-muted mt-1">Buffer added: +10%</div>
+                  </div>
+                </div>
+
+                <div class="col-12 col-sm-6">
+                  <div class="p-3 bg-white rounded border shadow-xs h-100">
+                    <span class="text-muted small d-block mb-1">Historical Cancellation Rate</span>
+                    <span class="fs-4 fw-bold text-dark" id="historicalCancellationRate">
+                      {{ forecastResult.historicalCancellationRate | number:'1.1-2' }}%
+                    </span>
+                    <div class="small text-muted mt-1">Based on hotel reservation history</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Placeholder state before calculation -->
+            <div *ngIf="!forecastResult" class="text-center py-4 border rounded border-dashed text-muted bg-light">
+              <p class="mb-0 small">Enter expected hotel guests and click <strong>Calculate</strong> to view recommended prep portions.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOOKING & ORDER CANCELLATIONS SECTION -->
+  <div class="row mt-4">
+    <div class="col-12">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+          <div>
+            <h3 class="h6 mb-0 fw-bold text-dark d-flex align-items-center">
+              <span class="step-indicator bg-secondary text-white me-2">3</span>
+              Booking & Order Cancellations Ingestion
+            </h3>
+            <small class="text-muted">Record group/event cancellations to automatically calibrate historical cancellation rates</small>
+          </div>
+          <button 
+            type="button" 
+            id="toggleCancellationButton"
+            class="btn btn-sm btn-outline-secondary"
+            (click)="toggleCancellationForm()">
+            {{ showCancellationForm ? 'Close Form' : '+ Record Cancellation' }}
+          </button>
+        </div>
+
+        <div class="card-body p-4" *ngIf="showCancellationForm">
+          <!-- Success Alert -->
+          <div *ngIf="cancellationSuccessMessage" class="alert alert-success py-2 small mb-3" role="alert">
+            {{ cancellationSuccessMessage }}
+          </div>
+
+          <!-- Error Alert -->
+          <div *ngIf="cancellationErrorMessage" class="alert alert-warning py-2 small mb-3" role="alert">
+            {{ cancellationErrorMessage }}
+          </div>
+
+          <form (ngSubmit)="submitCancellation()">
+            <div class="row g-3">
+              <div class="col-12 col-md-3">
+                <label for="bookingNameInput" class="form-label small fw-semibold text-secondary">Booking / Event Name</label>
+                <input 
+                  type="text" 
+                  class="form-control" 
+                  id="bookingNameInput" 
+                  placeholder="e.g. Acme Tech Summit" 
+                  [(ngModel)]="bookingName" 
+                  name="bookingName" 
+                  required>
+              </div>
+
+              <div class="col-12 col-md-3">
+                <label for="canceledCoversInput" class="form-label small fw-semibold text-secondary">Canceled Covers</label>
+                <input 
+                  type="number" 
+                  class="form-control" 
+                  id="canceledCoversInput" 
+                  placeholder="e.g. 25" 
+                  min="0"
+                  [(ngModel)]="canceledCovers" 
+                  name="canceledCovers" 
+                  required>
+              </div>
+
+              <div class="col-12 col-md-3">
+                <label for="cancellationRateInput" class="form-label small fw-semibold text-secondary">Cancellation Rate (%)</label>
+                <div class="input-group">
+                  <input 
+                    type="number" 
+                    class="form-control" 
+                    id="cancellationRateInput" 
+                    placeholder="e.g. 15" 
+                    min="0" 
+                    max="100" 
+                    step="0.1"
+                    [(ngModel)]="cancellationRatePercent" 
+                    name="cancellationRatePercent" 
+                    required>
+                  <span class="input-group-text">%</span>
+                </div>
+              </div>
+
+              <div class="col-12 col-md-3">
+                <label for="estimatedWasteCostInput" class="form-label small fw-semibold text-secondary">Est. Waste Cost ($)</label>
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input 
+                    type="number" 
+                    class="form-control" 
+                    id="estimatedWasteCostInput" 
+                    placeholder="e.g. 150" 
+                    min="0"
+                    [(ngModel)]="estimatedWasteCost" 
+                    name="estimatedWasteCost" 
+                    required>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 text-end">
+              <button 
+                type="submit" 
+                id="submitCancellationButton"
+                class="btn btn-dark px-4 fw-semibold"
+                [disabled]="isSubmittingCancellation">
+                <span *ngIf="isSubmittingCancellation" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                {{ isSubmittingCancellation ? 'Saving Cancellation...' : 'Submit & Recalibrate Forecast' }}
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Epic 2, Story 2.2: Untouched Food Re-Routing Alert -->
+        <div class="card-footer bg-light py-3 border-top" *ngIf="rerouteCandidateCovers > 0" id="rerouteAlertSection">
+          <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
+            <div class="d-flex align-items-center">
+              <span class="fs-4 me-3">🍲</span>
+              <div>
+                <div class="d-flex align-items-center gap-2">
+                  <strong class="text-dark small">Untouched Food Re-Routing Alert (Operations)</strong>
+                  <span class="badge bg-warning text-dark py-1 px-2">Ready for Recovery</span>
+                </div>
+                <div class="small text-muted">
+                  <strong>{{ rerouteCandidateCovers }} untouched portions</strong> from canceled bookings are flagged immediately after service to prevent spoilage.
+                </div>
+              </div>
+            </div>
+            <div>
+              <button 
+                *ngIf="!isRerouted"
+                type="button" 
+                id="rerouteButton"
+                class="btn btn-sm btn-success fw-semibold text-nowrap"
+                (click)="markAsRerouted()">
+                Re-Route to Staff Cafeteria
+              </button>
+              <span *ngIf="isRerouted" class="badge bg-success py-2 px-3 fw-semibold">
+                ✓ Safely Re-Routed to Staff Cafeteria
+              </span>
+            </div>
+          </div>
+          <div *ngIf="rerouteSuccessMessage" class="mt-2 small text-success fw-semibold">
+            {{ rerouteSuccessMessage }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

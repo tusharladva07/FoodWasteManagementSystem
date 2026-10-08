@@ -1,0 +1,200 @@
+Hospitality-Focused Product Requirement Document (PRD)
+1. Domain Context & Hospitality Problem
+In hotel and resort operations, the Morning Breakfast Buffet is one of the highest cost drivers and source of guest friction:
+	Food Waste / Over-prep: Kitchens over-prepare high-cost protein and dairy items (bacon, sausages, live egg counters) to avoid empty trays during peak hours.
+	Late Cancellations & No-Shows: Group bookings, conference delegates, or room cancellations lead to cooked, untouched meals that end up in trash bins.
+	Food Shortage Risk: Under-preparing leads to cold/empty buffet stations at 9:00 AM, causing poor guest reviews (NPS/CSAT drops) and extra rush on line cooks.
+2. Operational Architecture
+                       ┌──────────────────────────────┐
+                       │   Kitchen & Operations UI    │
+                       └──────────────┬───────────────┘
+                                      │
+            ┌─────────────────────────┼─────────────────────────┐
+            ▼                         ▼                         ▼
+   [ Visual Tray Scan ]     [ Group / Room Cancellations ] [ Morning Prep Forecast ]
+   Kitchen staff scans      Ingests pre-orders & room    Dynamic safety buffer
+   buffet trays at 10:30 AM drops to compute net waste   calculates batch cooking
+            │                         │                         │
+            └─────────────────────────┼─────────────────────────┘
+                                      ▼
+                       ┌──────────────────────────────┐
+                       │    SILA Operational Store    │
+                       └──────────────────────────────┘
+3. Epics & User Stories (Hospitality Specific)
+Epic 1: AI Buffet Tray Waste & Cost Audit
+	User Story 1.1 (Post-Breakfast Tray Photo Upload):
+	As a Executive Sous Chef,
+	I want to photograph leftover buffet trays at the end of breakfast service (10:30 AM),
+	So that I can automatically track wasted volume without making stewards manually weigh food waste.
+	Acceptance Criteria: Staff uploads tray photos; AI returns dish name, remaining volume %, calculated waste mass (kg), and financial impact ($).
+	User Story 1.2 (High-Cost Dish Alert):
+	As a Food & Beverage (F&B) Director,
+	I want the system to flag when high-cost items (e.g., imported cheeses, cured meats, fresh salmon) exceed 20% waste,
+	So that I can adjust batch cooking sizes for tomorrow's shift.
+Epic 2: Cancellation & Unserved Food Re-routing
+	User Story 2.1 (Cancellation & Room Drop Log Ingestion):
+	As a Front Office / Banquet Manager,
+	I want to log group cancellations or late room drop-outs,
+	So that the kitchen knows how much pre-cooked food was unserved due to booking changes.
+	User Story 2.2 (Untouched Food Re-Routing Alert):
+	As a Operations Manager,
+	I want untouched canceled buffet items flagged immediately after service,
+	So that they can be safely re-routed to the staff cafeteria or local food recovery before spoilage.
+Epic 3: Guest Shortage Prevention & Dynamic Morning Prep
+	User Story 3.1 (Safety-Buffered Morning Prep Engine):
+	As a Breakfast Line Cook,
+	I want a daily prep quantity recommendation for tomorrow morning based on occupancy, historical guest no-shows, and cancellation rates,
+	So that buffet trays never run out during 8:00 AM – 9:30 AM peak rush.
+	Acceptance Criteria: Calculates recommended batch prep counts using the safety buffer formula:
+"Recommended Portions"="Expected Covers"×(1-"Avg Cancellation Rate" )×1.10
+Developer System Prompts (Hospitality Context)
+Your developer can feed these tech-agnostic prompts directly into an AI coding assistant (Cursor, GitHub Copilot, ChatGPT, Claude) to build the solution.
+Prompt 1: Data Models & Service Architecture
+Plaintext
+Act as a Senior Software Engineer. Build a lightweight hospitality food waste and prep forecasting module.
+
+Define the following core data models in your chosen programming language:
+1. BuffetWasteRecord:
+   - Unique Identifier
+   - Item Name (string, e.g., "Scrambled Eggs", "Smoked Salmon")
+   - Tray Capacity in KG (number)
+   - Remaining Volume Percentage (number)
+   - Wasted Weight in KG (calculated: Capacity * (Remaining % / 100))
+   - Estimated Dollar Loss (number)
+   - Timestamp
+2. CanceledOrderRecord:
+   - Group or Room Booking Name (string)
+   - Canceled Covers / Portions (integer)
+   - Cancellation Rate (decimal percentage)
+   - Estimated Waste Cost (number)
+3. Storage Layer:
+   - Fast in-memory or lightweight database store for both record types.
+
+Provide clean, modular code for these data models and the storage repository.
+Prompt 2: Vision API & Dynamic Forecast Endpoints
+Plaintext
+Implement 3 core backend handlers using your preferred web framework:
+
+1. Visual Analysis Endpoint (POST /api/vision/analyze):
+   - Accepts an uploaded image file (or base64 string) of a buffet tray.
+   - Sends the image to a Vision AI API (e.g., GPT-4o, Claude 3.5 Sonnet, or Gemini 1.5) asking for raw JSON containing: itemName, trayCapacityKg, remainingPercentage, estimatedLossUsd.
+   - Calculates wasted weight in KG, saves the record to storage, and returns the result.
+
+2. Canceled Orders Ingestion Endpoint (POST /api/orders/cancellations):
+   - Accepts a list of canceled group/room booking objects and appends them to storage.
+
+3. Morning Forecast Endpoint (GET /api/forecast):
+   - Accepts expected hotel guest covers as a parameter.
+   - Computes historical average cancellation rate from stored logs.
+   - Applies safety buffer formula: Recommended Portions = Ceil(Expected Covers * (1 - Avg Cancellation Rate) * 1.10).
+   - Returns expected covers, historical cancel rate %, recommended prep count, and total cumulative dollar loss.
+Prompt 3: Hospitality Kitchen UI Dashboard
+Plaintext
+Create a single-page web dashboard designed for kitchen staff and F&B managers.
+
+Requirements:
+1. Top Metrics Bar: Total Waste (kg), Cumulative Lost Revenue ($), and Tomorrow's Recommended Breakfast Prep Count.
+2. Left Card - Post-Service Buffet Audit: File upload dropzone to attach buffet tray photos, trigger visual analysis, and show returned metrics (dish name, wasted kg, dollar loss).
+3. Right Card - Morning Prep & Shortage Preventer: Input field for 'Tomorrow Expected Hotel Guests', a compute button, and a clear metric display showing safety-adjusted prep portions so buffet trays don't run empty during peak rush hours.
+
+Keep the UI clean, modern, and high-contrast for fast viewing in a fast-paced kitchen environment.
+Hospitality-Focused Product Requirement Document (PRD)
+1. Domain Context & Hospitality Problem
+In hotel and resort operations, the Morning Breakfast Buffet is one of the highest cost drivers and source of guest friction:
+	Food Waste / Over-prep: Kitchens over-prepare high-cost protein and dairy items (bacon, sausages, live egg counters) to avoid empty trays during peak hours.
+	Late Cancellations & No-Shows: Group bookings, conference delegates, or room cancellations lead to cooked, untouched meals that end up in trash bins.
+	Food Shortage Risk: Under-preparing leads to cold/empty buffet stations at 9:00 AM, causing poor guest reviews (NPS/CSAT drops) and extra rush on line cooks.
+2. Operational Architecture
+                       ┌──────────────────────────────┐
+                       │   Kitchen & Operations UI    │
+                       └──────────────┬───────────────┘
+                                      │
+            ┌─────────────────────────┼─────────────────────────┐
+            ▼                         ▼                         ▼
+   [ Visual Tray Scan ]     [ Group / Room Cancellations ] [ Morning Prep Forecast ]
+   Kitchen staff scans      Ingests pre-orders & room    Dynamic safety buffer
+   buffet trays at 10:30 AM drops to compute net waste   calculates batch cooking
+            │                         │                         │
+            └─────────────────────────┼─────────────────────────┘
+                                      ▼
+                       ┌──────────────────────────────┐
+                       │    SILA Operational Store    │
+                       └──────────────────────────────┘
+3. Epics & User Stories (Hospitality Specific)
+Epic 1: AI Buffet Tray Waste & Cost Audit
+	User Story 1.1 (Post-Breakfast Tray Photo Upload):
+	As a Executive Sous Chef,
+	I want to photograph leftover buffet trays at the end of breakfast service (10:30 AM),
+	So that I can automatically track wasted volume without making stewards manually weigh food waste.
+	Acceptance Criteria: Staff uploads tray photos; AI returns dish name, remaining volume %, calculated waste mass (kg), and financial impact ($).
+	User Story 1.2 (High-Cost Dish Alert):
+	As a Food & Beverage (F&B) Director,
+	I want the system to flag when high-cost items (e.g., imported cheeses, cured meats, fresh salmon) exceed 20% waste,
+	So that I can adjust batch cooking sizes for tomorrow's shift.
+Epic 2: Cancellation & Unserved Food Re-routing
+	User Story 2.1 (Cancellation & Room Drop Log Ingestion):
+	As a Front Office / Banquet Manager,
+	I want to log group cancellations or late room drop-outs,
+	So that the kitchen knows how much pre-cooked food was unserved due to booking changes.
+	User Story 2.2 (Untouched Food Re-Routing Alert):
+	As a Operations Manager,
+	I want untouched canceled buffet items flagged immediately after service,
+	So that they can be safely re-routed to the staff cafeteria or local food recovery before spoilage.
+Epic 3: Guest Shortage Prevention & Dynamic Morning Prep
+	User Story 3.1 (Safety-Buffered Morning Prep Engine):
+	As a Breakfast Line Cook,
+	I want a daily prep quantity recommendation for tomorrow morning based on occupancy, historical guest no-shows, and cancellation rates,
+	So that buffet trays never run out during 8:00 AM – 9:30 AM peak rush.
+	Acceptance Criteria: Calculates recommended batch prep counts using the safety buffer formula:
+"Recommended Portions"="Expected Covers"×(1-"Avg Cancellation Rate" )×1.10
+Developer System Prompts (Hospitality Context)
+Your developer can feed these tech-agnostic prompts directly into an AI coding assistant (Cursor, GitHub Copilot, ChatGPT, Claude) to build the solution.
+Prompt 1: Data Models & Service Architecture
+Plaintext
+Act as a Senior Software Engineer. Build a lightweight hospitality food waste and prep forecasting module.
+
+Define the following core data models in your chosen programming language:
+1. BuffetWasteRecord:
+   - Unique Identifier
+   - Item Name (string, e.g., "Scrambled Eggs", "Smoked Salmon")
+   - Tray Capacity in KG (number)
+   - Remaining Volume Percentage (number)
+   - Wasted Weight in KG (calculated: Capacity * (Remaining % / 100))
+   - Estimated Dollar Loss (number)
+   - Timestamp
+2. CanceledOrderRecord:
+   - Group or Room Booking Name (string)
+   - Canceled Covers / Portions (integer)
+   - Cancellation Rate (decimal percentage)
+   - Estimated Waste Cost (number)
+3. Storage Layer:
+   - Fast in-memory or lightweight database store for both record types.
+
+Provide clean, modular code for these data models and the storage repository.
+Prompt 2: Vision API & Dynamic Forecast Endpoints
+Plaintext
+Implement 3 core backend handlers using your preferred web framework:
+
+1. Visual Analysis Endpoint (POST /api/vision/analyze):
+   - Accepts an uploaded image file (or base64 string) of a buffet tray.
+   - Sends the image to a Vision AI API (e.g., GPT-4o, Claude 3.5 Sonnet, or Gemini 1.5) asking for raw JSON containing: itemName, trayCapacityKg, remainingPercentage, estimatedLossUsd.
+   - Calculates wasted weight in KG, saves the record to storage, and returns the result.
+
+2. Canceled Orders Ingestion Endpoint (POST /api/orders/cancellations):
+   - Accepts a list of canceled group/room booking objects and appends them to storage.
+
+3. Morning Forecast Endpoint (GET /api/forecast):
+   - Accepts expected hotel guest covers as a parameter.
+   - Computes historical average cancellation rate from stored logs.
+   - Applies safety buffer formula: Recommended Portions = Ceil(Expected Covers * (1 - Avg Cancellation Rate) * 1.10).
+   - Returns expected covers, historical cancel rate %, recommended prep count, and total cumulative dollar loss.
+Prompt 3: Hospitality Kitchen UI Dashboard
+Plaintext
+Create a single-page web dashboard designed for kitchen staff and F&B managers.
+
+Requirements:
+1. Top Metrics Bar: Total Waste (kg), Cumulative Lost Revenue ($), and Tomorrow's Recommended Breakfast Prep Count.
+2. Left Card - Post-Service Buffet Audit: File upload dropzone to attach buffet tray photos, trigger visual analysis, and show returned metrics (dish name, wasted kg, dollar loss).
+3. Right Card - Morning Prep & Shortage Preventer: Input field for 'Tomorrow Expected Hotel Guests', a compute button, and a clear metric display showing safety-adjusted prep portions so buffet trays don't run empty during peak rush hours.
+
+Keep the UI clean, modern, and high-contrast for fast viewing in a fast-paced kitchen environment.
